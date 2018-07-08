@@ -1,0 +1,15 @@
+.vehicle {
+  &__listing {
+    border: 3px solid #777;
+    margin-bottom: 20px;
+    display: flex;
+  }
+  &__img {
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+  }
+  &__headline-title {
+    flex: 0 0 33%;
+  }
+}

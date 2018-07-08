@@ -1,0 +1,20 @@
+.nav {
+  background: lightcoral;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  &__headline {
+    margin: 0;
+    padding: 0;
+  }
+  &__buttons {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  &__button {
+    margin: 10px;
+  }
+}
