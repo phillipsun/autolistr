@@ -8,6 +8,15 @@ import Nav from './component/Nav/Nav';
 import './App.css';
 
 class App extends Component {
+
+  // componentWillMount() {
+  //   axios.get('/profile')
+  //     .then(response => {
+  //       console.log('GET user info', response.data);
+  //       this.setState({ user: response.data })
+  //     });
+
+  // }
   render() {
     return (
       <div className="App">

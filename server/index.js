@@ -46,16 +46,25 @@ passport.use( new Auth0Strategy(
     callbackURL:  '/login',
     scope: "openid email profile"
   },
- function(accessToken, refreshToken, extraParams, profile, done) {
-   // accessToken is the token to call Auth0 API (not needed in the most cases)
-   // extraParams.id_token has the JSON Web Token
-   // profile has all the information from the user
-   return done(null, profile);
- }
+  function(accessToken, refreshToken, extraParams, profile, done) {
+  // accessToken is the token to call Auth0 API (not needed in the most cases)
+  // extraParams.id_token has the JSON Web Token
+  // profile has all the information from the user
+    const db = app.get('db');
+    db.findUser(profile._json.email).then(user => {
+      if(user.length) {
+        return done(null, profile);
+      } else {
+        db.addUser([profile._json.email, profile._json.name]).then(user => {
+          return done(null, profile);
+        })
+      }
+    });
+  }   
 ) );
 
 passport.serializeUser(function(user, done) {
-  done(null, { clientId: user.id, email: user._json.email, name: user._json.name });
+  done(null, { id: user.id, email: user._json.email, name: user._json.name });
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -66,19 +75,22 @@ function authenticated(req, res, next) {
   if( req.user ) {
     next()
   } else {
-    res.sendStatus(401);
+    res.sendStatus(401).redirect('/login');
   }
 }
 
 //////////////////////
 ///// ENDPOINTS //////
 //////////////////////
-app.get( '/login',
+
+// Login Endpoint
+app.get('/login',
   passport.authenticate('auth0',
     { successRedirect: 'http://localhost:3000/#/Dashboard', failureRedirect: '/login', failureFlash: true }
   )
 );
 
+// Profile Endpoint
 app.get('/profile', ( req, res, next) => {
   if ( !req.user ) {
     res.redirect('/login');
@@ -87,7 +99,20 @@ app.get('/profile', ( req, res, next) => {
   }
 });
 
-app.get('/api/vehicles', authenticated, controller.getVehicles);
+// GET ALL Listings
+app.get('/api/listings', authenticated, controller.getListings);
+
+// GET Listings by User Id
+// app.get('/api/listings/:user_id', controller.getListingById);
+
+
+
+// POST Vehicle Endpoint
+app.post('/api/listing/new', controller.createListing);
+
+// PUT Vehicle Endpoint
+
+// DELETE Vehicle Endpoint
 
 app.listen(4000, () => {
   console.log('Server is listening on port 4000');

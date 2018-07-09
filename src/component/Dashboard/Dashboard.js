@@ -18,7 +18,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/vehicles')
+    axios.get('/api/listings')
       .then(response => {
         console.log('GET response', response.data);
         this.setState({ vehicles: response.data })
