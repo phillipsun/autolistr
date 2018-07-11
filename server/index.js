@@ -92,11 +92,16 @@ app.get('/login',
 
 // Profile Endpoint
 app.get('/profile', ( req, res, next) => {
-  if ( !req.user ) {
-    res.redirect('/login');
-  } else {
-    res.status(200).send( JSON.stringify( req.user, null, 10 ) );
-  }
+  const db = app.get('db');
+  db.findUser(req.user.email).then(
+    user => { 
+      if ( !req.user ) {
+        res.redirect('/login');
+      } else {
+        res.status(200).send( user[0] );
+      }
+    }
+  );
 });
 
 // GET ALL Listings
@@ -105,14 +110,12 @@ app.get('/api/listings', authenticated, controller.getListings);
 // GET Listings by User Id
 // app.get('/api/listings/:user_id', controller.getListingById);
 
-
-
-// POST Vehicle Endpoint
+// POST Listing Endpoint
 app.post('/api/listing/new', controller.createListing);
 
-// PUT Vehicle Endpoint
+// PUT Listing Endpoint
 
-// DELETE Vehicle Endpoint
+// DELETE Listing Endpoint
 
 app.listen(4000, () => {
   console.log('Server is listening on port 4000');

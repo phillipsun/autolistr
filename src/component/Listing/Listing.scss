@@ -3,13 +3,29 @@
     border: 3px solid #777;
     margin-bottom: 20px;
     display: flex;
+    flex-direction: column;
+    @media(min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+  &__img-box {
+    flex: 0 0 25%;
   }
   &__img {
-    max-width: 300px;
+    width: 100%;
     display: block;
     margin: 0 auto;
   }
-  &__headline-title {
-    flex: 0 0 33%;
+  &__heading-title {
+    flex: 0 0 30%;
+    margin-left: 10px;
+  }
+  &__desc-box {
+    flex: 0 0 25%;
+    margin: 10px;
+  }
+  &__contact {
+    flex: 1 1 auto;
+    margin: 10px;
   }
 }

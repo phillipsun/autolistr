@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { initializeUser } from './../../redux/reducer';
 
 // Import Components
 import Listing from '../Listing/Listing';
@@ -12,8 +15,9 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      vehicles: [],
-      user: {}
+      userListings: [],
+      listings: [],
+      user_id: ''
     }
   }
 
@@ -21,23 +25,23 @@ class Dashboard extends Component {
     axios.get('/api/listings')
       .then(response => {
         console.log('GET response', response.data);
-        this.setState({ vehicles: response.data })
+        this.setState({ listings: response.data })
       });
-
     axios.get('/profile')
       .then(response => {
         console.log('GET user info', response.data);
-        this.setState({ user: response.data })
+        this.props.initializeUser(response.data);
+        console.log('Hello world', this.props);
       });
   }
 
   render() {
     return (
       <div className='dashboard'>
-        <h2>Welcome back, {this.state.user.name}</h2>
         <div className='dashboard__listing-container'>
+          <h1>Welcome back, {this.props.name}</h1>
           <h3>Recent Vehicle Listings:</h3>
-          {this.state.vehicles.map(el => {
+          {this.state.listings.map(el => {
             return <Listing vehicle={el} key={el.id} />
           })}
         </div>
@@ -46,4 +50,12 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators( { initializeUser }, dispatch )
+}
+
+function mapStateToProps(state) {
+  return state;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

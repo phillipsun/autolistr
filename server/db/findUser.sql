@@ -1,1 +1,1 @@
-SELECT FROM users WHERE users.email = ($1)
+SELECT * FROM users WHERE users.email = ($1)
