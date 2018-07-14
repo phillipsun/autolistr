@@ -9,21 +9,18 @@ import { deleteListing } from './../../redux/reducer';
 import '../Listing/Listing.css'
 
 class Listing extends Component {
-
   deleteListing(id) {
     axios.delete(`/api/listing/${id}`)
       .then(response => {
         console.log("deleting");
         this.props.deleteListing(id);
       });
-    
   }
 
   render() {
     console.log(this.props.listing);
-    let { id, make, model, year, mileage, img, description, user_id, price, vin, name, email } = this.props.listing;
+    let { id, make, model, year, mileage, img, price, name, email } = this.props.listing;
     return (
-      
       <div className='listing'>
         <div className='listing__img-box'>
           <img src={img} className='listing__img' alt={`vehicle ${id}`}/>
@@ -44,10 +41,13 @@ class Listing extends Component {
           <p>Posted by: {name}</p>
           <p>Seller Email: {email}</p>
         </div> : null}
-        <div class="listing__btns">
-        {this.props.canEdit ? <Link className='listing__edit-btn' to={`/listing/${id}/edit`}>Edit</Link> : null}
-        {this.props.delete ? <a className='listing__delete-btn' onClick={() => this.deleteListing(id)}>Delete</a> : null}
-        </div>
+        {this.props.showEdit ?
+          <div class="listing__btns">
+            <Link className='listing__edit-btn' to={`/listing/${id}/edit`}>Edit</Link>
+            <a className='listing__delete-btn' onClick={() => this.deleteListing(id)}>Delete</a>
+          </div>
+          : null
+        }
       </div>
     )
   }

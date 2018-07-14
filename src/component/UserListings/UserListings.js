@@ -33,13 +33,13 @@ class UserListing extends Component {
             <h2 className='user-listings__headline'>My Vehicle Listings:</h2>
             {this.props.userListings.map( e => {
                 console.log(this.props.userListings);
-                return <Listing listing={e} key={e.id} delete={true} canEdit={true} showContact={false}/>
+                return <Listing listing={e} key={e.id} showEdit={true} showContact={false}/>
               })}
             </div>
         </div>
         )
     } else {
-      return ( <div className='user-listings'><h2>No Listings to display</h2></div> )
+      return ( <div className='user-listings'><h2 className='user-listings__headline'>No Listings to display</h2></div> )
     }
   }
 

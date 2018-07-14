@@ -31,7 +31,17 @@ class ListingDetails extends Component {
     axios.get(`/api/listing/${id}`)
       .then(response => {
         //console.log("From component", response.data[0]);
-        this.setState({ make: response.data[0].make, model: response.data[0].model, year: response.data[0].year, mileage: response.data[0].mileage, img: response.data[0].img, description: response.data[0].description, price: response.data[0].price, user_id: response.data[0].user_id, vin: response.data[0].vin})
+        this.setState({ 
+          make: response.data[0].make, 
+          model: response.data[0].model, 
+          year: response.data[0].year, 
+          mileage: response.data[0].mileage, 
+          img: response.data[0].img, 
+          description: response.data[0].description, 
+          price: response.data[0].price, 
+          user_id: response.data[0].user_id,
+          vin: response.data[0].vin
+        })
       })
   }
 

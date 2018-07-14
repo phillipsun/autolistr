@@ -14,7 +14,7 @@
     color: #FFF;
   }
   &__headline {
+    @extend .dashboard__greeting;
     font-size: 2rem;
-    color: #FFF;
   }
 }

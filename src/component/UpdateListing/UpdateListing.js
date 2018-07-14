@@ -82,7 +82,7 @@ class UpdateListing extends Component {
           onClick={ () => 
           {
             this.updateListing(this.state, this.props.match.params.id)
-            this.props.history.push('/dashboard')
+            this.props.history.push(`/listings/${this.props.user_id}`)
           }
           }>Update Listing</button>
         </div>

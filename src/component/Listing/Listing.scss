@@ -10,7 +10,7 @@
     flex-direction: row;
   }
   &__img-box {
-    flex: 0 0 25%;
+    flex: 1 1 25%;
   }
   &__img {
     width: 100%;
@@ -21,12 +21,12 @@
     }
   }
   &__heading-title {
-    flex: 0 0 30%;
+    flex: 1 1 25%;
     margin-left: 10px;
     font-size: 1.5rem;
   }
   &__desc-box {
-    flex: 0 0 25%;
+    flex: 1 1 25%;
     margin: 10px;
     h2 {
       font-size: 1.25rem;
@@ -37,14 +37,14 @@
     }
   }
   &__contact {
-    flex: 1 1 auto;
+    flex: 1 1 25%;
     margin: 10px;
   }
   &__delete-btn {
     z-index: 2;
   }
   &__btns {
-    flex: 1 1 auto;
+    flex: 1 1 25%;
     margin: 10px;
     > a {
       display: block;

@@ -11,7 +11,7 @@ import Listing from '../Listing/Listing';
 import '../Dashboard/Dashboard.css'
 
 class Dashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     axios.get('/profile')
       .then(response => {
         this.props.initializeUser(response.data);

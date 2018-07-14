@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { clear, setListingInfo } from './../../redux/reducer';
+import { setListingInfo } from './../../redux/reducer';
 
 // Import Styles
 import '../Form/Form.css'
@@ -35,8 +35,8 @@ class Form extends Component {
     console.log(listing);
     axios.post('/api/listing/new', listing)
       .then(response => {
-        this.props.clear();
-        this.props.history.push('/Dashboard')
+        //this.props.clear();
+        this.props.history.push(`/Listings/${user_id}`)
       });
   }
 
@@ -86,4 +86,4 @@ function mapStateToProps(reduxState) {
   return { make, model, year, mileage, img, description, price, vin, user_id, email, name };
 }
 
-export default connect(mapStateToProps, { clear, setListingInfo })(Form);
+export default connect(mapStateToProps, { setListingInfo })(Form);
