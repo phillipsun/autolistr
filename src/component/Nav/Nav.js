@@ -29,9 +29,6 @@ class Nav extends Component {
       return (
         <div className='nav'>
           <div className='nav__logo-container'><img className='nav__logo' src={logo} alt='nav logo'/></div>
-          <div class="nav__menu-toggle">
-              <span></span>
-          </div>
           <div className='nav__links'>
             <Link className='nav__home' to='/dashboard'>Home</Link>
             <Link className='nav__user-listings' to={`/listings/${id}`}>My Listings</Link>

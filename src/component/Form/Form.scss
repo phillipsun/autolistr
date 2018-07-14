@@ -3,10 +3,15 @@ $primary-color: #458FD9; // Blue
 
 .form {
   width: 70%;
-  margin: 150px auto 0;
   color: $font-color;
+  margin: 275px auto 0;
+  @media(min-width: 768px) {
+    margin: 150px auto 0;
+  }
   &__field-container {
-    width: 50%;
+    @media(min-width: 768px) {
+      width: 50%;
+    }
   }
   &__input-container {
     display: flex;

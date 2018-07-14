@@ -16,7 +16,7 @@ class UserListing extends Component {
   }
 
   grabListings() {
-    console.log("grabbing listings");
+    console.log("Grabbing Listings...");
     axios.get(`/api/listings/${this.props.user_id}`)
       .then(response => {
         //console.log("From component", response.data);
@@ -25,14 +25,14 @@ class UserListing extends Component {
   }
 
   render() {
-    console.log(this.props.userListings);
+    //console.log(this.props.userListings);
     if (this.props.userListings.length > 0) {
       return (
         <div className='user-listings'>
           <div className='user-listings__container'>
             <h2 className='user-listings__headline'>My Vehicle Listings:</h2>
             {this.props.userListings.map( e => {
-                console.log(this.props.userListings);
+                //console.log(this.props.userListings);
                 return <Listing listing={e} key={e.id} showEdit={true} showContact={false}/>
               })}
             </div>

@@ -32,7 +32,7 @@ class Form extends Component {
   handleCreate() {
     let { user_id } = this.props;
     let listing = { ...this.state, user_id };
-    console.log(listing);
+    //console.log(listing);
     axios.post('/api/listing/new', listing)
       .then(response => {
         //this.props.clear();

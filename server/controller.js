@@ -48,7 +48,6 @@ module.exports = {
     console.log('Fetching user listings...');
     const db = req.app.get('db');
 
-    //console.log(req.params.id);
     db.getListingsByUserId([ req.params.id ])
       .then(listings => {
         res.status(200).send(listings)
@@ -62,8 +61,8 @@ module.exports = {
   updateListing: (req, res, next) => {
     console.log("Updating listing...");
     const db = req.app.get('db');
-    console.log(req.body)
-    const { make, model, year, mileage, img, description, price, vin } = req.body
+    const { make, model, year, mileage, img, description, price, vin } = req.body;
+    
     db.updateListing([ make, model, year, mileage, img, description, price, vin, req.params.id])
       .then(listing => {
         res.status(200).send(listing)

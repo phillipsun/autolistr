@@ -12,7 +12,7 @@ class Listing extends Component {
   deleteListing(id) {
     axios.delete(`/api/listing/${id}`)
       .then(response => {
-        console.log("deleting");
+        //console.log("Deleting...");
         this.props.deleteListing(id);
       });
   }

@@ -1,7 +1,10 @@
 .listing-details {
   width: 70%;
-  margin: 150px auto 0;
   color: #FFF;
+  margin: 275px 0 0;
+  @media(min-width: 768px) {
+    margin: 150px auto 0;
+  }
   &__img {
     display: block;
     margin: 0 auto 20px;

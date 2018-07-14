@@ -3,8 +3,11 @@ $primary-color: #458FD9; // Blue
 
 .update-listing {
   width: 70%;
-  margin: 150px auto 0;
   color: $font-color;
+  margin: 275px 0 0;
+  @media(min-width: 768px) {
+    margin: 150px auto 0;
+  }
   &__field-container {
     width: 50%;
   }
