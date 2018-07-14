@@ -1,0 +1,16 @@
+.listing-details {
+  width: 70%;
+  margin: 150px auto 0;
+  &__img {
+    display: block;
+    margin: 0 auto;
+    width: 600px;
+  }
+  > h2 {
+    font-size: 2rem;
+  }
+  &__info-box {
+    margin: 0 auto;
+    width: 600px;
+  }
+}

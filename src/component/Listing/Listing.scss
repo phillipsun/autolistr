@@ -1,12 +1,13 @@
-.vehicle {
-  &__listing {
-    border: 3px solid #777;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    @media(min-width: 768px) {
-      flex-direction: row;
-    }
+
+.listing {
+  border: 3px solid #777;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  background: #FFF;
+  padding: 10px;
+  @media(min-width: 768px) {
+    flex-direction: row;
   }
   &__img-box {
     flex: 0 0 25%;
@@ -19,13 +20,24 @@
   &__heading-title {
     flex: 0 0 30%;
     margin-left: 10px;
+    font-size: 1.5rem;
   }
   &__desc-box {
     flex: 0 0 25%;
     margin: 10px;
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 5px;
+    }
   }
   &__contact {
     flex: 1 1 auto;
     margin: 10px;
+  }
+  &__delete-btn {
+    z-index: 2;
   }
 }

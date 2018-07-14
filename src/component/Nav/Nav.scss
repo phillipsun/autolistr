@@ -1,20 +1,54 @@
 .nav {
-  background: lightcoral;
+  background: #fff;
   color: #fff;
   display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  align-items: center;
-  &__headline {
-    margin: 0;
-    padding: 0;
+  padding: 0 20px;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  @media(min-width: 768px) {
+    flex-direction: row;
   }
-  &__buttons {
+
+  &__logo-container {
+    flex: 1 1 auto;
+  }
+  &__logo {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    @media(min-width: 768px) {
+      width: 80%;
+    }
+  }
+  &__links {
+    flex: 1 0 70%;
     margin: 0;
     padding: 0;
     display: flex;
-  }
-  &__button {
-    margin: 10px;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    @media(min-width: 768px) {
+      justify-content: flex-end;
+      align-items: center;
+      flex-direction: row;
+
+    }
+    > a {
+      color: #458FD9;
+      margin: 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      &:hover,
+      &:focus {
+        color: darken(#458FD9, 10%);
+      }
+
+      @media(min-width: 768px) {
+        margin: 0 20px;
+      }
+    }
   }
 }

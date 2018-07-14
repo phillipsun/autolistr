@@ -1,0 +1,1 @@
+UPDATE vehicles SET make = $1, model = $2, year = $3, mileage = $4, img = $5, description = $6, price = $7, vin = $8 WHERE id = $9;

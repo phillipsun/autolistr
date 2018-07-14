@@ -28,7 +28,7 @@ massive( process.env.CONNECTIONSTRING )
 ///// SESSIONS /////
 ////////////////////
 app.use( session({
-  secret: 'secrets',
+  secret: 'mys3cr3t',
   resave: false,
   saveUninitialized: false
 }));
@@ -60,11 +60,11 @@ passport.use( new Auth0Strategy(
         })
       }
     });
-  }   
-) );
+  }
+));
 
-passport.serializeUser(function(user, done) {
-  done(null, { id: user.id, email: user._json.email, name: user._json.name });
+passport.serializeUser(function(profile, done) {
+  done(null, { user_id: profile.id, email: profile._json.email, name: profile._json.name });
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -72,7 +72,7 @@ passport.deserializeUser(function(obj, done) {
 });
 
 function authenticated(req, res, next) {
-  if( req.user ) {
+  if( req.session.user_id ) {
     next()
   } else {
     res.sendStatus(401).redirect('/login');
@@ -84,38 +84,57 @@ function authenticated(req, res, next) {
 //////////////////////
 
 // Login Endpoint
-app.get('/login',
-  passport.authenticate('auth0',
-    { successRedirect: 'http://localhost:3000/#/Dashboard', failureRedirect: '/login', failureFlash: true }
-  )
-);
+app.get('/login', passport.authenticate('auth0', { 
+  successRedirect: 'http://localhost:3000/#/Dashboard', failureRedirect: '/login', failureFlash: true 
+}));
 
-// Profile Endpoint
-app.get('/profile', ( req, res, next) => {
+// User Profile Endpoint
+app.get('/profile', (req, res, next) => {
+  // console.log(req);
+  // console.log(req.user);
+  // console.log(req.session);
+  // console.log(req.user_id);
   const db = app.get('db');
-  db.findUser(req.user.email).then(
-    user => { 
-      if ( !req.user ) {
+  db.findUser(req.user.email)
+    .then(user => { 
+      if( !req.user.email ) {
         res.redirect('/login');
       } else {
-        res.status(200).send( user[0] );
+        // Set session.user_id to the user_id from the db
+        req.session.user_id = user[0].user_id;
+        console.log(req.session.user_id);
+        res.status(200).send(user[0]);
       }
-    }
-  );
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 });
 
-// GET ALL Listings
-app.get('/api/listings', authenticated, controller.getListings);
+// Logout Endpoint
+app.post('/api/logout', (req, res, next) => {
+  console.log("logging out", req.session);
+  req.session.destroy();
+  console.log("logged out", req.session);
+})
 
-// GET Listings by User Id
-// app.get('/api/listings/:user_id', controller.getListingById);
+// GET ALL Listings Endpoint
+app.get('/api/listings', controller.getListings);
+
+// GET Listings by UserID Endpoint
+app.get('/api/listings/:id', authenticated, controller.getListingsByUserId);
+
+// GET One Listing
+app.get('/api/listing/:id', authenticated, controller.getListing);
 
 // POST Listing Endpoint
-app.post('/api/listing/new', controller.createListing);
+app.post('/api/listing/new', authenticated, controller.createListing);
 
 // PUT Listing Endpoint
+app.put('/api/listing/:id', authenticated, controller.updateListing);
 
 // DELETE Listing Endpoint
+app.delete('/api/listing/:id', authenticated, controller.deleteListing);
 
 app.listen(4000, () => {
   console.log('Server is listening on port 4000');

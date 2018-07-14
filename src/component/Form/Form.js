@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateMake } from './../../redux/reducer';
+import { clear, setListingInfo } from './../../redux/reducer';
 
 // Import Styles
+import '../Form/Form.css'
+
+// Asset Imports
+import noImage from './../../assets/NoImage.png';
 
 class Form extends Component {
   constructor(props) {
@@ -16,46 +20,67 @@ class Form extends Component {
       mileage: 0,
       img: '',
       description: '',
-      price: 0
+      price: 0,
+      vin: ''
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    let { make, model, year, mileage, img, description, price } = this.props;
-    this.setState({ make, model, year, mileage, img, description, price });
-
+    this.handleCreate = this.handleCreate.bind(this);
   }
 
   handleChange(prop, value) {
     this.setState({ [prop]: value })
   }
 
-  handleSubmit() {
-    let { make, model, year, mileage, img, description, price } = this.props;
-    let listing = { make, model, year, mileage, img, description, price };
+  handleCreate() {
+    let { user_id } = this.props;
+    let listing = { ...this.state, user_id };
+    console.log(listing);
     axios.post('/api/listing/new', listing)
-      .then(res => {
-        //this.props.clear();
-        console.log(res);
-        this.props.history.push('/')
+      .then(response => {
+        this.props.clear();
+        this.props.history.push('/Dashboard')
       });
   }
 
   render() {
+    let img = this.state.img;
+    img ? null : img = noImage;
+
     return (
-      <div class="form">
-        <p>Make: </p><input onChange={e => this.handleChange('make', e.target.value)} />
-        <p>Model: </p><input onChange={e => this.handleChange('model', e.target.value)} />
-        <p>Year: </p><input onChange={e => this.handleChange('year', e.target.value)} />
-        <p>Mileage: </p><input onChange={e => this.handleChange('mileage', e.target.value)} />
-        <p>ImgUrl: </p><input  onChange={e => this.handleChange('img', e.target.value)} />
-        <p>Description: </p><input onChange={e => this.handleChange('description', e.target.value)} />
-        <p>Price: </p><input  onChange={e => this.handleChange('price', e.target.value)} />
-        <div>
-          <button className="wizard__button wizard__complete-button" onClick={ () => this.handleSubmit}>Create Listing</button>
+      <div className='form'>
+        <h1 className='form__headline'>List a vehicle for sale</h1>
+        <div className='form__field-container'>
+          <div className='form__input-container'>
+            <p>Make: </p><input value={this.state.make} onChange={e => this.handleChange('make', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>Model: </p><input value={this.state.model} onChange={e => this.handleChange('model', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>Year: </p><input value={this.state.year} onChange={e => this.handleChange('year', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>Mileage: </p><input value={this.state.mileage} onChange={e => this.handleChange('mileage', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>ImgUrl: </p><input value={this.state.img} onChange={e => this.handleChange('img', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>Description: </p><input value={this.state.description} onChange={e => this.handleChange('description', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>Price: </p><input value={this.state.price} onChange={e => this.handleChange('price', e.target.value)} />
+          </div>
+          <div className='form__input-container'>
+            <p>VIN: </p><input value={this.state.vin} onChange={e => this.handleChange('vin', e.target.value)} />
+          </div>
+        </div>
+        <div className='form__btn-container'>
+          <button className="form__create-btn" onClick={ () => {
+            this.props.setListingInfo(this.state);
+            this.handleCreate();
+          }}>Create Listing</button>
         </div>
       </div>
     )
@@ -63,8 +88,8 @@ class Form extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  let { make, model, year, mileage, img, description, price } = reduxState;
-  return { make, model, year, mileage, img, description, price };
+  let { make, model, year, mileage, img, description, price, vin, user_id, email, name } = reduxState;
+  return { make, model, year, mileage, img, description, price, vin, user_id, email, name };
 }
 
-export default connect(mapStateToProps, { updateMake })(Form);
+export default connect(mapStateToProps, { clear, setListingInfo })(Form);

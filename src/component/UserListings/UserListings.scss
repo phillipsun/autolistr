@@ -1,0 +1,11 @@
+.user-listings {
+  margin-top: 150px;
+  &__container {
+    width: 70%;
+    margin: 0 auto;
+  }
+  &__headline {
+    font-size: 2rem;
+    color: #FFF;
+  }
+}
