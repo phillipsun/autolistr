@@ -20,8 +20,8 @@ class Listing extends Component {
   }
 
   render() {
-    console.log(this.props.vehicle);
-    let { id, make, model, year, mileage, img, description, user_id, price, vin } = this.props.vehicle;
+    console.log(this.props.listing);
+    let { id, make, model, year, mileage, img, description, user_id, price, vin, name, email } = this.props.listing;
     return (
       
       <div className='listing'>
@@ -41,11 +41,13 @@ class Listing extends Component {
           <p className='listing__mileage'>Mileage: {mileage} miles</p>
         </div>
         {this.props.showContact ? <div className='listing__contact'>
-          <p>Posted by: {user_id}</p>
-          <button>Contact Seller!</button>
+          <p>Posted by: {name}</p>
+          <p>Seller Email: {email}</p>
         </div> : null}
-        {this.props.canEdit ? <Link to={`/listing/${id}/edit`}>Edit</Link> : null}
-        {this.props.delete ? <a className='listing__delete-btn' onClick={() => this.deleteListing(id)}>Delete</a> : null} 
+        <div class="listing__btns">
+        {this.props.canEdit ? <Link className='listing__edit-btn' to={`/listing/${id}/edit`}>Edit</Link> : null}
+        {this.props.delete ? <a className='listing__delete-btn' onClick={() => this.deleteListing(id)}>Delete</a> : null}
+        </div>
       </div>
     )
   }

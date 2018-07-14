@@ -1,1 +1,1 @@
-SELECT * FROM users INNER JOIN vehicles on vehicles.user_id = users.user_id WHERE users.user_id = $1;
+SELECT * FROM vehicles WHERE vehicles.user_id = $1;

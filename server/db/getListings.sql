@@ -1,1 +1,1 @@
-SELECT * FROM vehicles;
+SELECT * FROM users INNER JOIN vehicles on vehicles.user_id = users.user_id;

@@ -29,7 +29,7 @@ class Dashboard extends Component {
           <h1 className='dashboard__greeting'>Welcome back, {this.props.name}</h1>
           <h2 className='dashboard__headline'>Recently Posted Vehicle Listings:</h2>
           {this.props.listings.map(el => {
-            return <Listing vehicle={el} key={el.id} showContact={true}/>
+            return <Listing listing={el} key={el.id} showContact={true}/>
           })}
         </div>
       </div>

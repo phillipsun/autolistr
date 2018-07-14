@@ -15,7 +15,10 @@
   &__img {
     width: 100%;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 20px;
+    @media(min-width: 768px) {
+      margin: 0 auto;
+    }
   }
   &__heading-title {
     flex: 0 0 30%;
@@ -39,5 +42,18 @@
   }
   &__delete-btn {
     z-index: 2;
+  }
+  &__btns {
+    flex: 1 1 auto;
+    margin: 10px;
+    > a {
+      display: block;
+      font-weight: bold;
+      color: blue;
+      text-decoration: none;
+    }
+  }
+  &__delete-btn {
+    margin-top: 10px;
   }
 }
