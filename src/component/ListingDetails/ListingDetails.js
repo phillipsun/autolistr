@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Import Styles
@@ -30,15 +30,14 @@ class ListingDetails extends Component {
     let id = this.props.match.params.id;
     axios.get(`/api/listing/${id}`)
       .then(response => {
-        console.log("From component", response.data[0]);
+        //console.log("From component", response.data[0]);
         this.setState({ make: response.data[0].make, model: response.data[0].model, year: response.data[0].year, mileage: response.data[0].mileage, img: response.data[0].img, description: response.data[0].description, price: response.data[0].price, user_id: response.data[0].user_id, vin: response.data[0].vin})
       })
   }
 
   getVINDetails() {
     let vin = this.state.vin;
-    // Axios
-
+    // Axios Request to external api
     axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/${vin}?format=json`)
       .then(response => {
         this.setState({
@@ -49,23 +48,13 @@ class ListingDetails extends Component {
             bodyClass: response.data.Results[0].BodyClass,
             vehicleType: response.data.Results[0].VehicleType,
             engineHP: response.data.Results[0].EngineHP,
-            trim: response.data.Results[0].Trim,
-            bodyClass: response.data.Results[0].BodyClass
+            trim: response.data.Results[0].Trim
           }
         })
-        // console.log(response.data.Results[0].PlantCountry)
-        // console.log(response.data.Results[0].Make)
-        // console.log(response.data.Results[0].ModelYear)
-        // console.log(response.data.Results[0].BodyClass)
-        // console.log(response.data.Results[0].VehicleType)
-        // console.log(response.data.Results[0].EngineHP)
-        // console.log(response.data.Results[0].Trim)
-        // console.log(response.data.Results[0].BodyClass)
       })
   }
 
   render() {
-
       return (
         <div className='listing-details'>
           <div className='listing-details__img-box'>
@@ -81,26 +70,24 @@ class ListingDetails extends Component {
             <h3>Price: {this.state.price}</h3>
             <p>Description:</p>
             <p>{this.state.description}</p>
+            <h4>If the VIN is provided, double check the Listings Details against the VIN information to confirm you are buying the right vehicle!</h4>
+            <button onClick={() => this.getVINDetails(this.state.vin)}>Get VIN Details</button>
+            {
+              this.state.vinDetails.hasOwnProperty('make') ? 
+                <div className='listing-details__vin-details'>
+                  <p>Plant Country: {this.state.vinDetails.plantCountry}</p>
+                  <p>Make: {this.state.vinDetails.make}</p>
+                  <p>Model Year: {this.state.vinDetails.modelYear}</p>
+                  <p>Body Class: {this.state.vinDetails.bodyClass}</p>
+                  <p>Vehicle Type: {this.state.vinDetails.vehicleType}</p>
+                  <p>EngineHP: {this.state.vinDetails.engineHP}</p>
+                  <p>Trim: {this.state.vinDetails.trim}</p>
+                </div> 
+              : null
+            }
           </div>
-          <h4>If the VIN is provided, double check the listing information against the VIN information to confirm you are buying the right vehicle!</h4>
-          <button onClick={() => this.getVINDetails(this.state.vin)}>Get VIN Details</button>
-          {
-            this.state.vinDetails.hasOwnProperty('make') ? 
-              <div className='listing-details__vin-details'>
-                <p>Plant Country: {this.state.vinDetails.plantCountry}</p>
-                <p>Make: {this.state.vinDetails.make}</p>
-                <p>Model Year: {this.state.vinDetails.modelYear}</p>
-                <p>Body Class: {this.state.vinDetails.bodyClass}</p>
-                <p>Vehicle Type: {this.state.vinDetails.vehicleType}</p>
-                <p>EngineHP: {this.state.vinDetails.engineHP}</p>
-                <p>Trim: {this.state.vinDetails.trim}</p>
-                <p>Body Class: {this.state.vinDetails.bodyClass}</p>
-              </div> 
-            : null
-          }
         </div>
       )
-
   }
 }
 

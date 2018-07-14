@@ -6,9 +6,6 @@ import { clear, setListingInfo } from './../../redux/reducer';
 // Import Styles
 import '../Form/Form.css'
 
-// Asset Imports
-import noImage from './../../assets/NoImage.png';
-
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -44,9 +41,6 @@ class Form extends Component {
   }
 
   render() {
-    let img = this.state.img;
-    img ? null : img = noImage;
-
     return (
       <div className='form'>
         <h1 className='form__headline'>List a vehicle for sale</h1>

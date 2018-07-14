@@ -1,6 +1,9 @@
 .dashboard {
-  margin-top: 150px;
   color: #000;
+  margin-top: 350px;
+  @media(min-width: 768px) {
+    margin-top: 150px;
+  }
   &__listing-container {
     width: 70%;
     margin: 0 auto;

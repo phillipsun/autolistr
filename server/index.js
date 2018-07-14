@@ -11,6 +11,8 @@ require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.static( __dirname + '/../build' ));
+
 
 /////////////////////
 ///// DATABASE //////
@@ -118,22 +120,22 @@ app.post('/api/logout', (req, res, next) => {
   console.log("logged out", req.session);
 })
 
-// GET ALL Listings Endpoint
+// Read Listings
 app.get('/api/listings', controller.getListings);
 
-// GET Listings by UserID Endpoint
+// Read Listings by User
 app.get('/api/listings/:id', authenticated, controller.getListingsByUserId);
 
-// GET One Listing
+// Read Listing
 app.get('/api/listing/:id', authenticated, controller.getListing);
 
-// POST Listing Endpoint
+// Create Listing
 app.post('/api/listing/new', authenticated, controller.createListing);
 
-// PUT Listing Endpoint
+// Update Listing
 app.put('/api/listing/:id', authenticated, controller.updateListing);
 
-// DELETE Listing Endpoint
+// Delete Listing
 app.delete('/api/listing/:id', authenticated, controller.deleteListing);
 
 app.listen(4000, () => {

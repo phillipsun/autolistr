@@ -62,7 +62,7 @@ module.exports = {
   updateListing: (req, res, next) => {
     console.log("Updating listing...");
     const db = req.app.get('db');
-
+    console.log(req.body)
     const { make, model, year, mileage, img, description, price, vin } = req.body
     db.updateListing([ make, model, year, mileage, img, description, price, vin, req.params.id])
       .then(listing => {

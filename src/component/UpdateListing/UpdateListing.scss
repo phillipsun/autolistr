@@ -1,8 +1,10 @@
-
+$font-color: #FFF;
+$primary-color: #458FD9; // Blue
 
 .update-listing {
   width: 70%;
   margin: 150px auto 0;
+  color: $font-color;
   &__field-container {
     width: 50%;
   }
@@ -26,11 +28,11 @@
     text-decoration: none;
     text-align: center;
     border-radius: 5px;
-    background: #458FD9;
-    color: #FFF;
+    background: $primary-color;
+    color: $font-color;
     padding: 20px;
     display: block;
     width: 300px;
-    margin: 20px auto 0;
+    margin: 20px 0 0 0;
   }
 }

@@ -1,9 +1,10 @@
 .listing-details {
   width: 70%;
   margin: 150px auto 0;
+  color: #FFF;
   &__img {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     width: 600px;
   }
   > h2 {
@@ -12,5 +13,8 @@
   &__info-box {
     margin: 0 auto;
     width: 600px;
+    p {
+      margin-bottom: 10px;
+    }
   }
 }

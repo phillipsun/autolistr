@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from './../../redux/reducer';
@@ -42,8 +43,12 @@ class Nav extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators( { logout }, dispatch )
+}
+
 function mapStateToProps(state) {
   return state;
 }
 
-export default withRouter(connect(mapStateToProps, {})(Nav));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav));

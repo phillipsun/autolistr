@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { updateListing } from './../../redux/reducer';
-import { Redirect, withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Import Styles
@@ -45,42 +44,42 @@ class UpdateListing extends Component {
     let id = this.props.match.params.id;
     axios.put(`/api/listing/${id}`, this.state)
       .then(response => {
-        console.log("From component", response.data[0]);
-        <Redirect to="http://yahoo.com" />
+        console.log(response);
       })
   }
 
   render() {
-
       return (
         <div className='update-listing'>
           <h2 className='update-listing__headline'>Update Listing</h2>
-          <div className='update-listing__input-container'>
-            <p>Make: </p><input value={this.state.make} onChange={e => this.handleChange('make', e.target.value)} />
+          <div className='update-listing__field-container'>
+            <div className='update-listing__input-container'>
+              <p>Make: </p><input value={this.state.make} onChange={e => this.handleChange('make', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>Model: </p><input value={this.state.model} onChange={e => this.handleChange('model', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>Year: </p><input value={this.state.year} onChange={e => this.handleChange('year', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>Mileage: </p><input value={this.state.mileage} onChange={e => this.handleChange('mileage', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>ImgUrl: </p><input value={this.state.img} onChange={e => this.handleChange('img', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>Description: </p><input value={this.state.description} onChange={e => this.handleChange('description', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>Price: </p><input value={this.state.price} onChange={e => this.handleChange('price', e.target.value)} />
+            </div>
+            <div className='update-listing__input-container'>
+              <p>VIN: </p><input value={this.state.vin} onChange={e => this.handleChange('vin', e.target.value)} />
+            </div>
           </div>
-          <div className='update-listing__input-container'>
-            <p>Model: </p><input value={this.state.model} onChange={e => this.handleChange('model', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>Year: </p><input value={this.state.year} onChange={e => this.handleChange('year', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>Mileage: </p><input value={this.state.mileage} onChange={e => this.handleChange('mileage', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>ImgUrl: </p><input value={this.state.img} onChange={e => this.handleChange('img', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>Description: </p><input value={this.state.description} onChange={e => this.handleChange('description', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>Price: </p><input value={this.state.price} onChange={e => this.handleChange('price', e.target.value)} />
-          </div>
-          <div className='update-listing__input-container'>
-            <p>VIN: </p><input value={this.state.vin} onChange={e => this.handleChange('vin', e.target.value)} />
-          </div>
-
-          <button className='update-listing__btn' onClick={() => 
+          <button className='update-listing__btn' 
+          onClick={ () => 
           {
             this.updateListing(this.state, this.props.match.params.id)
             this.props.history.push('/dashboard')

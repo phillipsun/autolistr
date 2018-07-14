@@ -11,12 +11,6 @@ import Listing from '../Listing/Listing';
 import '../UserListings/UserListings.css'
 
 class UserListing extends Component {
-  constructor(props) {
-    super(props);
-
-    //this.grabListings = this.grabListings.bind(this);
-  }
-
   componentWillMount() {
     this.grabListings();
   }
@@ -25,22 +19,21 @@ class UserListing extends Component {
     console.log("grabbing listings");
     axios.get(`/api/listings/${this.props.user_id}`)
       .then(response => {
-        console.log("From component", response.data);
+        //console.log("From component", response.data);
         this.props.initializeUserListings(response.data);
       })
   }
 
-  
-  
   render() {
-    if (this.props.userListings) {
+    console.log(this.props.userListings);
+    if (this.props.userListings.length > 0) {
       return (
         <div className='user-listings'>
           <div className='user-listings__container'>
             <h2 className='user-listings__headline'>My Vehicle Listings:</h2>
             {this.props.userListings.map( e => {
                 console.log(this.props.userListings);
-                return <Listing vehicle={e} key={e.id} delete={true} canEdit={true}/>
+                return <Listing vehicle={e} key={e.id} delete={true} canEdit={true} showContact={false}/>
               })}
             </div>
         </div>
