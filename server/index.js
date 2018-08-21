@@ -1,72 +1,80 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const controller = require('./controller');
-const massive = require('massive');
-const session = require('express-session');
-const passport = require('passport');
-const Auth0Strategy = require('passport-auth0');
+const express = require("express");
+const bodyParser = require("body-parser");
+const controller = require("./controller");
+const massive = require("massive");
+const session = require("express-session");
+const passport = require("passport");
+const Auth0Strategy = require("passport-auth0");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(express.static( __dirname + '/../build' ));
-
+app.use(express.static(__dirname + "/../build"));
 
 /////////////////////
 ///// DATABASE //////
 /////////////////////
-massive( process.env.CONNECTIONSTRING )
-  .then( dbInstance => {
-    app.set('db', dbInstance);
-    console.log('Connected to database');
+massive(process.env.CONNECTIONSTRING)
+  .then(dbInstance => {
+    app.set("db", dbInstance);
+    console.log("Connected to database");
   })
-  .catch( err => {
+  .catch(err => {
     console.log(err.message);
   });
 
 ////////////////////
 ///// SESSIONS /////
 ////////////////////
-app.use( session({
-  secret: 'mys3cr3t',
-  resave: false,
-  saveUninitialized: false
-}));
-app.use( passport.initialize() );
-app.use( passport.session() );
+app.use(
+  session({
+    secret: "mys3cr3t",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 ///////////////////////////
 ///// AUTH0 STRATEGY //////
 ///////////////////////////
-passport.use( new Auth0Strategy(
-  {
-    domain:       process.env.DOMAIN,
-    clientID:     process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    callbackURL:  '/login',
-    scope: "openid email profile"
-  },
-  function(accessToken, refreshToken, extraParams, profile, done) {
-  // accessToken is the token to call Auth0 API (not needed in the most cases)
-  // extraParams.id_token has the JSON Web Token
-  // profile has all the information from the user
-    const db = app.get('db');
-    db.findUser(profile._json.email).then(user => {
-      if(user.length) {
-        return done(null, profile);
-      } else {
-        db.addUser([profile._json.email, profile._json.name]).then(user => {
+passport.use(
+  new Auth0Strategy(
+    {
+      domain: process.env.DOMAIN,
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "/login",
+      scope: "openid email profile"
+    },
+    function(accessToken, refreshToken, extraParams, profile, done) {
+      // accessToken is the token to call Auth0 API (not needed in the most cases)
+      // extraParams.id_token has the JSON Web Token
+      // profile has all the information from the user
+      const db = app.get("db");
+      db.findUser(profile._json.email).then(user => {
+        if (user.length) {
           return done(null, profile);
-        })
-      }
-    });
-  }
-));
+        } else {
+          db.addUser([profile._json.email, profile._json.name]).then(user => {
+            return done(null, profile);
+          });
+        }
+      });
+    }
+  )
+);
 
 passport.serializeUser(function(profile, done) {
-  done(null, { user_id: profile.id, email: profile._json.email, name: profile._json.name });
+  console.log(profile);
+  done(null, {
+    user_id: profile.id,
+    email: profile._json.email,
+    name: profile._json.name
+  });
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -74,33 +82,33 @@ passport.deserializeUser(function(obj, done) {
 });
 
 function authenticated(req, res, next) {
-  if( req.session.user_id ) {
-    next()
+  if (req.session.user_id) {
+    next();
   } else {
-    res.sendStatus(401).redirect('/login');
+    res.sendStatus(401).redirect("/login");
   }
 }
 
 //////////////////////
 ///// ENDPOINTS //////
 //////////////////////
-
 // Login Endpoint
-app.get('/login', passport.authenticate('auth0', { 
-  successRedirect: 'http://localhost:3000/#/Dashboard', failureRedirect: '/login', failureFlash: true 
-}));
+app.get(
+  "/login",
+  passport.authenticate("auth0", {
+    successRedirect: "http://localhost:3000/#/Dashboard",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
 
 // User Profile Endpoint
-app.get('/profile', (req, res, next) => {
-  // console.log(req);
-  // console.log(req.user);
-  // console.log(req.session);
-  // console.log(req.user_id);
-  const db = app.get('db');
+app.get("/profile", (req, res, next) => {
+  const db = app.get("db");
   db.findUser(req.user.email)
-    .then(user => { 
-      if( !req.user.email ) {
-        res.redirect('/login');
+    .then(user => {
+      if (!req.user.email) {
+        res.redirect("/login");
       } else {
         // Set session.user_id to the user_id from the db
         req.session.user_id = user[0].user_id;
@@ -109,35 +117,35 @@ app.get('/profile', (req, res, next) => {
       }
     })
     .catch(err => {
-      res.status(500).send(err)
-    })
+      res.status(500).send(err);
+    });
 });
 
 // Logout Endpoint
-app.post('/api/logout', (req, res, next) => {
-  console.log("logging out", req.session);
+app.post("/api/logout", (req, res, next) => {
+  //console.log("logging out", req.session);
   req.session.destroy();
-  console.log("logged out", req.session);
-})
+  //console.log("logged out", req.session);
+});
 
 // Read Listings
-app.get('/api/listings', controller.getListings);
+app.get("/api/listings", controller.getListings);
 
 // Read Listings by User
-app.get('/api/listings/:id', authenticated, controller.getListingsByUserId);
+app.get("/api/listings/:id", authenticated, controller.getListingsByUserId);
 
 // Read Listing
-app.get('/api/listing/:id', authenticated, controller.getListing);
+app.get("/api/listing/:id", authenticated, controller.getListing);
 
 // Create Listing
-app.post('/api/listing/new', authenticated, controller.createListing);
+app.post("/api/listing/new", authenticated, controller.createListing);
 
 // Update Listing
-app.put('/api/listing/:id', authenticated, controller.updateListing);
+app.put("/api/listing/:id", authenticated, controller.updateListing);
 
 // Delete Listing
-app.delete('/api/listing/:id', authenticated, controller.deleteListing);
+app.delete("/api/listing/:id", authenticated, controller.deleteListing);
 
 app.listen(4000, () => {
-  console.log('Server is listening on port 4000');
+  console.log("Server is listening on port 4000");
 });

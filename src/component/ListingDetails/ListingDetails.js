@@ -24,6 +24,7 @@ class ListingDetails extends Component {
     }
 
     this.getVINDetails = this.getVINDetails.bind(this);
+    this.renderVINDetailsButton = this.renderVINDetailsButton.bind(this);
   }
 
   componentDidMount() {
@@ -31,14 +32,14 @@ class ListingDetails extends Component {
     axios.get(`/api/listing/${id}`)
       .then(response => {
         //console.log("From component", response.data[0]);
-        this.setState({ 
-          make: response.data[0].make, 
-          model: response.data[0].model, 
-          year: response.data[0].year, 
-          mileage: response.data[0].mileage, 
-          img: response.data[0].img, 
-          description: response.data[0].description, 
-          price: response.data[0].price, 
+        this.setState({
+          make: response.data[0].make,
+          model: response.data[0].model,
+          year: response.data[0].year,
+          mileage: response.data[0].mileage,
+          img: response.data[0].img,
+          description: response.data[0].description,
+          price: response.data[0].price,
           user_id: response.data[0].user_id,
           vin: response.data[0].vin
         })
@@ -64,40 +65,50 @@ class ListingDetails extends Component {
       })
   }
 
-  render() {
+  renderVINDetailsButton() {
+    if (this.state.vin) {
       return (
-        <div className='listing-details'>
-          <div className='listing-details__img-box'>
-            <img className='listing-details__img' src={this.state.img} alt={`${this.state.year} ${this.state.make} ${this.state.model} for sale`} />
-          </div>
-          <div className='listing-details__info-box'>
-            <h2>Listing Details</h2>
-            <p>Year: {this.state.year}</p>
-            <p>Make: {this.state.make}</p>
-            <p>Model: {this.state.model}</p>
-            <p>Mileage: {this.state.mileage}</p>
-            <p>VIN: {this.state.vin}</p>
-            <h3>Price: {this.state.price}</h3>
-            <p>Description:</p>
-            <p>{this.state.description}</p>
-            <h4>If the VIN is provided, double check the Listings Details against the VIN information to confirm you are buying the right vehicle!</h4>
-            <button onClick={() => this.getVINDetails(this.state.vin)}>Get VIN Details</button>
-            {
-              this.state.vinDetails.hasOwnProperty('make') ? 
-                <div className='listing-details__vin-details'>
-                  <p>Plant Country: {this.state.vinDetails.plantCountry}</p>
-                  <p>Make: {this.state.vinDetails.make}</p>
-                  <p>Model Year: {this.state.vinDetails.modelYear}</p>
-                  <p>Body Class: {this.state.vinDetails.bodyClass}</p>
-                  <p>Vehicle Type: {this.state.vinDetails.vehicleType}</p>
-                  <p>EngineHP: {this.state.vinDetails.engineHP}</p>
-                  <p>Trim: {this.state.vinDetails.trim}</p>
-                </div> 
-              : null
-            }
-          </div>
-        </div>
+        <button>Get More Details</button>
       )
+    } else {
+      return null
+    }
+  }
+
+  render() {
+    return (
+      <div className='listing-details'>
+        <div className='listing-details__img-box'>
+          <img className='listing-details__img' src={this.state.img} alt={`${this.state.year} ${this.state.make} ${this.state.model} for sale`} />
+        </div>
+        <div className='listing-details__info-box'>
+          <h2>Listing Details</h2>
+          <p>Year: {this.state.year}</p>
+          <p>Make: {this.state.make}</p>
+          <p>Model: {this.state.model}</p>
+          <p>Mileage: {this.state.mileage}</p>
+          <p>VIN: {this.state.vin}</p>
+          <h3>Price: {this.state.price}</h3>
+          <p>Description:</p>
+          <p>{this.state.description}</p>
+          <h4>If the VIN is provided, double check the Listings Details against the VIN information to confirm you are buying the right vehicle!</h4>
+          {this.renderVINDetailsButton}
+          {
+            this.state.vinDetails.hasOwnProperty('make') ?
+              <div className='listing-details__vin-details'>
+                <p>Plant Country: {this.state.vinDetails.plantCountry}</p>
+                <p>Make: {this.state.vinDetails.make}</p>
+                <p>Model Year: {this.state.vinDetails.modelYear}</p>
+                <p>Body Class: {this.state.vinDetails.bodyClass}</p>
+                <p>Vehicle Type: {this.state.vinDetails.vehicleType}</p>
+                <p>EngineHP: {this.state.vinDetails.engineHP}</p>
+                <p>Trim: {this.state.vinDetails.trim}</p>
+              </div>
+              : null
+          }
+        </div>
+      </div>
+    )
   }
 }
 

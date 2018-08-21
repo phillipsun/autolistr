@@ -1,14 +1,15 @@
 .listing-details {
   width: 70%;
-  color: #FFF;
+  background: #FFF;
   margin: 275px 0 0;
+  padding: 5%;
   @media(min-width: 768px) {
     margin: 150px auto 0;
   }
   &__img {
     display: block;
     margin: 0 auto 20px;
-    width: 600px;
+    width: 100%;
   }
   > h2 {
     font-size: 2rem;
@@ -19,5 +20,17 @@
     p {
       margin-bottom: 10px;
     }
+  }
+  button {
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    background: #458FD9;
+    color: #FFF;
+    padding: 20px;
+    display: block;
+    min-width: 200px;
+    max-width: 300px;
+    margin: 20px auto 0;
   }
 }

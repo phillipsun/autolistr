@@ -12,30 +12,27 @@ class Listing extends Component {
   deleteListing(id) {
     axios.delete(`/api/listing/${id}`)
       .then(response => {
-        //console.log("Deleting...");
         this.props.deleteListing(id);
       });
   }
 
   render() {
-    console.log(this.props.listing);
     let { id, make, model, year, mileage, img, price, name, email } = this.props.listing;
     return (
       <div className='listing'>
         <div className='listing__img-box'>
-          <img src={img} className='listing__img' alt={`vehicle ${id}`}/>
+          <img src={img} className='listing__img' alt={`vehicle ${id}`} />
         </div>
         <Link className='listing__heading-title' to={`/listing/${id}`}>
           <h2>
-            <span>{year} </span>
-            <span>{make} </span>
-            <span>{model}</span>
+            <span className="year">{year} </span>
+            <span className="make">{make} </span>
+            <span className="model">{model}</span>
           </h2>
         </Link>
         <div className='listing__desc-box'>
-          <h2>Vehicle Info:</h2>
-          <p className='listing__price'>Price: ${price}</p>
-          <p className='listing__mileage'>Mileage: {mileage} miles</p>
+          <h2 className='listing__price'>Price: ${price}</h2>
+          <h2 className='listing__mileage'>Mileage: {mileage} miles</h2>
         </div>
         {this.props.showContact ? <div className='listing__contact'>
           <p>Posted by: {name}</p>
@@ -54,7 +51,7 @@ class Listing extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators( { deleteListing }, dispatch )
+  return bindActionCreators({ deleteListing }, dispatch)
 }
 
 function mapStateToProps(state) {
