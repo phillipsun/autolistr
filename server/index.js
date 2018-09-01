@@ -112,7 +112,7 @@ app.get("/profile", (req, res, next) => {
       } else {
         // Set session.user_id to the user_id from the db
         req.session.user_id = user[0].user_id;
-        console.log(req.session.user_id);
+        // console.log(req.session.user_id);
         res.status(200).send(user[0]);
       }
     })
@@ -123,9 +123,8 @@ app.get("/profile", (req, res, next) => {
 
 // Logout Endpoint
 app.post("/api/logout", (req, res, next) => {
-  //console.log("logging out", req.session);
+  console.log("Logging out...");
   req.session.destroy();
-  //console.log("logged out", req.session);
 });
 
 // Read Listings
