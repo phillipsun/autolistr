@@ -1,7 +1,7 @@
 .user-listings {
-  margin-top: 275px;
-  @media(min-width: 768px) {
-    margin-top: 150px;
+  margin-top: 200px;
+  @media (min-width: 768px) {
+    margin-top: 90px;
   }
   &__container {
     width: 70%;
@@ -9,6 +9,7 @@
   }
   &__headline {
     font-size: 2rem;
-    color: #FFF;
+    color: #fff;
+    margin-bottom: 20px;
   }
 }

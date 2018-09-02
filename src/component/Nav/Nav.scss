@@ -7,7 +7,8 @@
   position: fixed;
   width: 100%;
   top: 0;
-  @media(min-width: 768px) {
+  z-index: 100;
+  @media (min-width: 768px) {
     flex-direction: row;
     padding: 0 20px;
   }
@@ -15,12 +16,13 @@
     flex: 1 1 auto;
   }
   &__logo {
-    width: 80%;
-    margin: 0 auto 20px;
+    width: 50%;
+    margin: 20px auto;
     display: block;
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       width: 80%;
       margin: 0 auto;
+      max-width: 280px;
     }
   }
   &__links {
@@ -30,22 +32,22 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       justify-content: flex-end;
       align-items: center;
     }
     > a {
-      color: #458FD9;
+      color: #458fd9;
       margin: 10px;
       text-decoration: none;
       text-transform: uppercase;
       font-size: 1rem;
       &:hover,
       &:focus {
-        color: darken(#458FD9, 10%);
+        color: darken(#458fd9, 10%);
       }
 
-      @media(min-width: 768px) {
+      @media (min-width: 768px) {
         margin: 0 20px;
         font-size: 1rem;
       }

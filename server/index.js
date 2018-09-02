@@ -11,11 +11,10 @@ require("dotenv").config();
 const app = express();
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + "/../build"));
 
-/////////////////////
-///// DATABASE //////
-/////////////////////
+////////////////////
+///// DATABASE /////
+////////////////////
 massive(process.env.CONNECTIONSTRING)
   .then(dbInstance => {
     app.set("db", dbInstance);
@@ -38,9 +37,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-///////////////////////////
-///// AUTH0 STRATEGY //////
-///////////////////////////
+//////////////////////////
+///// AUTH0 STRATEGY /////
+//////////////////////////
 passport.use(
   new Auth0Strategy(
     {
@@ -70,11 +69,13 @@ passport.use(
 
 passport.serializeUser(function(profile, done) {
   console.log(profile);
-  done(null, {
+  const userObj = {
     user_id: profile.id,
     email: profile._json.email,
     name: profile._json.name
-  });
+  };
+  console.log(userObj);
+  done(null, userObj);
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -89,9 +90,9 @@ function authenticated(req, res, next) {
   }
 }
 
-//////////////////////
-///// ENDPOINTS //////
-//////////////////////
+/////////////////////
+///// ENDPOINTS /////
+/////////////////////
 // Login Endpoint
 app.get(
   "/login",
@@ -131,19 +132,19 @@ app.post("/api/logout", (req, res, next) => {
 app.get("/api/listings", controller.getListings);
 
 // Read Listings by User
-app.get("/api/listings/:id", authenticated, controller.getListingsByUserId);
+app.get("/api/listings/:id", controller.getListingsByUserId);
 
 // Read Listing
-app.get("/api/listing/:id", authenticated, controller.getListing);
+app.get("/api/listing/:id", controller.getListing);
 
 // Create Listing
-app.post("/api/listing/new", authenticated, controller.createListing);
+app.post("/api/listing", controller.createListing);
 
 // Update Listing
-app.put("/api/listing/:id", authenticated, controller.updateListing);
+app.put("/api/listing/:id", controller.updateListing);
 
 // Delete Listing
-app.delete("/api/listing/:id", authenticated, controller.deleteListing);
+app.delete("/api/listing/:id", controller.deleteListing);
 
 app.listen(4000, () => {
   console.log("Server is listening on port 4000");

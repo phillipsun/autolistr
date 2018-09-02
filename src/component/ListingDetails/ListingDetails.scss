@@ -1,22 +1,24 @@
 .listing-details {
   width: 70%;
-  background: #FFF;
-  margin: 275px 0 0;
+  background: #fff;
+  margin: 200px auto 0;
   padding: 5%;
-  @media(min-width: 768px) {
-    margin: 150px auto 0;
+  @media (min-width: 768px) {
+    margin: 90px auto 0;
+  }
+  &__breadcrumbs {
   }
   &__img {
     display: block;
     margin: 0 auto 20px;
     width: 100%;
   }
-  > h2 {
+  h1 {
     font-size: 2rem;
+    margin: 10px 0;
   }
   &__info-box {
     margin: 0 auto;
-    width: 600px;
     p {
       margin-bottom: 10px;
     }
@@ -25,12 +27,12 @@
     text-decoration: none;
     text-align: center;
     border-radius: 5px;
-    background: #458FD9;
-    color: #FFF;
+    background: #458fd9;
+    color: #fff;
     padding: 20px;
     display: block;
     min-width: 200px;
     max-width: 300px;
-    margin: 20px auto 0;
+    margin: 20px auto;
   }
 }

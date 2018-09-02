@@ -1,15 +1,17 @@
-$font-color: #FFF;
-$primary-color: #458FD9; // Blue
+$font-color: #fff;
+$primary-color: #458fd9; // Blue
 
 .update-listing {
   width: 70%;
   color: $font-color;
-  margin: 275px 0 0;
-  @media(min-width: 768px) {
-    margin: 150px auto 0;
+  margin: 200px auto 0;
+  @media (min-width: 768px) {
+    margin: 90px auto 0;
   }
   &__field-container {
-    width: 50%;
+    @media (min-width: 768px) {
+      width: 40%;
+    }
   }
   &__input-container {
     display: flex;
@@ -37,5 +39,6 @@ $primary-color: #458FD9; // Blue
     display: block;
     width: 300px;
     margin: 20px 0 0 0;
+    max-width: 100%;
   }
 }

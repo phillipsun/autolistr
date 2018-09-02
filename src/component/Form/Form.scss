@@ -1,15 +1,15 @@
-$font-color: #FFF;
-$primary-color: #458FD9; // Blue
+$font-color: #fff;
+$primary-color: #458fd9; // Blue
 
 .form {
   width: 70%;
   color: $font-color;
-  margin: 275px auto 0;
-  @media(min-width: 768px) {
-    margin: 150px auto 0;
+  margin: 200px auto 0;
+  @media (min-width: 768px) {
+    margin: 90px auto 0;
   }
   &__field-container {
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
       width: 50%;
     }
   }

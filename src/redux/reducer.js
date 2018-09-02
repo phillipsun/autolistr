@@ -24,6 +24,7 @@ const LOGOUT = "LOGOUT";
 const DELETE_LISTING = "DELETE_LISTING";
 const UPDATE_LISTING = "UPDATE_LISTING";
 
+// Reducer
 export default function reducer(state = initialState, action) {
   let { type, payload } = action;
   switch (type) {
@@ -53,6 +54,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
+// Action Creators
 export function setListingInfo(listingInfo) {
   return {
     type: SET_LISTING_INFO,
